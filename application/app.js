@@ -6,6 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 // Plugin nconf to the application.
 var nconf = require('nconf');
+// Add the loggin framework winston 
+var winston = require('winston');
+
+// Configuring the file logger
+winston.add(winston.transports.File, { 'filename': 'application.log', 'level': 'silly'});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -15,13 +20,14 @@ var app = express();
 // setting the configuration file to fetch properties.
 // this demo how to use nconf to externalize the properties.
 nconf.file('./config/config.json');
+winston.info('nconf initialization successful.');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
