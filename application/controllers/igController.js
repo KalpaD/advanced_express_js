@@ -34,7 +34,7 @@ router.get('/oauth/done', (req, res) => {
  * Get the recent 10 media posted by user
  */
 router.get('/media/self', (req, res) => {
-    api.use({ access_token: '218907949.6b39776.87f2016bd4d146a7b7296e9cc52d8c14' });
+    api.use({ access_token: nconf.get('oauth:access_token') });
     api.user_self_media_recent({count: 10}, function(err, medias, pagination, remaining, limit) {
         if(err) {
             logger.error('Error while fetching media information :' + err.stack);
