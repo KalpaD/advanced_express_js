@@ -10,12 +10,16 @@ var nconf = require('nconf');
 var winston = require('winston');
 // Adding nunjucks as the tempalte engine
 var nunjucks = require('nunjucks');
+// Getting instagram api libs
+var ig = require('instagram-node').instagram();
 
 // Configuring the file logger
 winston.add(winston.transports.File, { 'filename': 'application.log', 'level': 'silly'});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var self = require('./routes/self');
+var igoauth = require('./controllers/igController');
 
 var app = express();
 
@@ -45,6 +49,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/self', self);
+app.use('/igoauth', igoauth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
