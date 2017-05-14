@@ -32,7 +32,7 @@ nunjucks.configure('views', {
 // setting the configuration file to fetch properties.
 // this demo how to use nconf to externalize the properties.
 nconf.file('./config/config.json');
-winston.info('nconf initialization successful.');
+winston.info('nconf initialization successful :' + nconf.get('oauth:access_token'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,7 +40,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
