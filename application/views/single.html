@@ -23,7 +23,7 @@
       console.log('new-comment executed !!' + msg.content);
       //$('#comments').append('<li>'+new_task+'</li>');
       $('#comments').append(
-        `<li>${msg.content}</li>`
+        $('<li>', { 'text': msg.content})
       );
     });
 

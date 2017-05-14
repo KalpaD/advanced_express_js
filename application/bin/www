@@ -7,13 +7,22 @@
 var app = require('../app');
 var debug = require('debug')('application:server');
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var nconf = require('nconf');
 
+// Loading certs
+var privateKey = fs.readFileSync('./sslcert/igapp-key.pem', 'utf8');
+var certificate = fs.readFileSync('./sslcert/igapp-cert.pem', 'utf8');
+
+var sslOptions = { key: privateKey, cert: certificate };
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
+var serverSsl = https.createServer(sslOptions, app);
+
 var io = require('socket.io')(server);
 io.on('connection', (socket) => {
   socket.on('add-comment', (msg) => {
@@ -33,7 +42,8 @@ app.set('port', nconf.get('http:port'));
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(app.get('port'));
+server.listen(nconf.get('http:port'));
+serverSsl.listen(nconf.get('http:portSsl'));
 server.on('error', onError);
 server.on('listening', onListening);
 
