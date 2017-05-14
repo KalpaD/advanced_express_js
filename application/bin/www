@@ -15,9 +15,14 @@ var nconf = require('nconf');
 
 var server = http.createServer(app);
 var io = require('socket.io')(server);
-io.on('connection', () => {
-  console.log('A user has connected.');
+io.on('connection', (socket) => {
+  socket.on('add-comment', (msg) => {
+    console.log('Add comment event on executed on server!');
+    console.log('Add comment event on server'+ JSON.stringify(msg));
+    io.emit('new-comment-' + msg.id, msg);
+  });
 });
+
 /**
  * Get port from configuration.
  */

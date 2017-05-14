@@ -3,8 +3,37 @@
   {% block content%}
   {% if selectedMedia %}
     <h1>"{{selectedMedia.caption.text}}"</h1>
-    <img src="{{selectedMedia.images.standard_resolution.url}}" width="500" />
+    <img id="{{selectedMedia.id}}" src="{{selectedMedia.images.standard_resolution.url}}" width="500" />
+    <ul id="comments"></ul>
+    <form action="" method="POST">
+      <textarea id="m"></textarea>
+      <input type="submit"/>
+    </form>
   {% else %}
     <p>Sorry, we couldn't find that image ID</p>
   {% endif %}
+  {% endblock %}
+
+  {% block js %}
+  <script>
+
+    var id = $('img').attr('id');
+
+    socket.on('new-comment-'+ id, function(msg) {
+      console.log('new-comment executed !!' + msg.content);
+      //$('#comments').append('<li>'+new_task+'</li>');
+      $('#comments').append(
+        `<li>${msg.content}</li>`
+      );
+    });
+
+    // intercept the submit action adn emit event 
+    $('form').submit(function() {
+      console.log('Submit executed !!');
+      socket.emit('add-comment', {'id': id, 'content': $('#m').val() });
+      $('#m').val('');
+      return false;
+    });
+
+  </script>
   {% endblock %}
