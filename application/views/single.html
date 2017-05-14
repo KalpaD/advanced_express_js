@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+  {% block content%}
+  {% if selectedMedia %}
+    <h1>"{{selectedMedia.caption.text}}"</h1>
+    <img src="{{selectedMedia.images.standard_resolution.url}}" width="500" />
+  {% else %}
+    <p>Sorry, we couldn't find that image ID</p>
+  {% endif %}
+  {% endblock %}

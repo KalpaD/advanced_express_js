@@ -13,13 +13,15 @@ router.get('/', function(req, res, next) {
             logger.error('Error while fetching media information :' + err.stack);
             res.send('Error while fetching media information :' + err.stack);
         } else {
-            var urls = [];
-            for(var i= 0; i < medias.length; i++) {
-                urls.push(medias[i].images.standard_resolution.url);
-            }
-            res.render('self', { urls: urls});
+            
+            res.render('self', { medias: medias });
         }
     });
+});
+
+router.get('/:id', function(req, res, next) {
+    var selectedMedia = ig_api.get_media_from_id(req.params.id);
+    res.render('single', { selectedMedia : selectedMedia });
 });
 
 module.exports = router;

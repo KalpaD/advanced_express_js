@@ -1,7 +1,10 @@
 {% extends "layout.html" %}
 
   {% block content%}
-    {% for url in urls %}
-    <img src="{{url}}" width="250" />
+    {% for m in medias %}
+
+    <a href="/self/{{m.id}}">
+      <img src="{{m.images.standard_resolution.url}}" width="250">
+    </a>
     {% endfor %}
   {% endblock %}

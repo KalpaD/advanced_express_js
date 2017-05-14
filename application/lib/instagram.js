@@ -45,4 +45,13 @@ ig.prototype.fetch_from_cache = function() {
     return false
 }
 
+ig.prototype.get_media_from_id = function(id) {
+    for (var i in this.cache.medias) {
+        if(this.cache.medias[i].id === id) {
+            return this.cache.medias[i];
+        }
+    }
+    return false;
+}
+
 module.exports = ig;

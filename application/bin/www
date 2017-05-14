@@ -10,16 +10,19 @@ var http = require('http');
 var nconf = require('nconf');
 
 /**
- * Get port from configuration.
- */
-// Note the delimiter being (:) not (.) since nconf prefer that way.
-app.set('port', nconf.get('http:port'));
-
-/**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
+var io = require('socket.io')(server);
+io.on('connection', () => {
+  console.log('A user has connected.');
+});
+/**
+ * Get port from configuration.
+ */
+// Note the delimiter being (:) not (.) since nconf prefer that way.
+app.set('port', nconf.get('http:port'));
 
 /**
  * Listen on provided port, on all network interfaces.
